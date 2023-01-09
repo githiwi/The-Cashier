@@ -8,14 +8,12 @@ function cashCounter(price, cash) {
   }
 
   if (change >= 20 && cash > price) {
-    //let change = cash - price;
     let result = { "20euro": Math.floor(change / 20) };
     cashRegister.push(result);
     change = change % 20;
   }
 
   if (change >= 10 && cash > price) {
-    //let change = cash - price;
     let result = { "10euro": Math.floor(change / 10) };
     cashRegister.push(result);
     change = change % 10;
