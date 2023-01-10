@@ -18,11 +18,14 @@ function cashCounter(price, cash) {
       cashRegister.push(result);
       change = change % coins;
     }
+    console.log(cashRegister);
   });
 
   return cashRegister;
 }
-// console.log(cashCounter(5, 10)); //[ '{5 euro : 1}' ]
-// console.log(cashCounter(5, 25));
-// console.log(cashCounter(10, 20));
+console.log(cashCounter(5, 10)); //[ '{5 euro : 1}' ]
+console.log(cashCounter(5, 25));
+console.log(cashCounter(10, 20));
 console.log(cashCounter(4.5, 20));
+console.log(cashCounter(5, 100));
+console.log(cashCounter(3.75, 20));
