@@ -13,6 +13,20 @@ let cashBox = [
   { 0.01: 25 },
 ];
 
+/**
+ * this function returns the total amount of
+ * notes and coins available in cashbox
+ * @param {*} cashBox
+ * @returns
+ */
+function checkCashBox(cashBox) {
+  let cashBoxTotal = cashBox.reduce(function (accumulator, currentValue) {
+    for (key in currentValue) {
+      return currentValue[key] + accumulator;
+    }
+  }, 0);
+  return cashBoxTotal;
+}
 function createCashCounter() {
   return function (price, cash) {
     const cashNotes = [50, 20, 10, 5, 2, 1];
@@ -24,20 +38,17 @@ function createCashCounter() {
       return price - cash + " more euro should be paid";
     }
     if (cash == price) {
-      return `payment done print the receipt? `;
+      return "payment done print the receipt? ";
     }
-    if (cashBox === []) {
-      return "empty";
+    if (checkCashBox(cashBox) == 0) {
+      return "empty cash box";
     }
     cashNotes.forEach((note) => {
-      //   if (cashBox === []) {
-      //     console.log("empty");
-      //     return;
-      //   }
       if (change >= note) {
         cashBox.forEach((item) =>
           item[note] ? (item[note] -= Number(Math.floor(change / note))) : item
         );
+
         let result = { [`${note} Euro`]: Math.floor(change / note) };
         cashRegister.push(result);
         change = change % note;
@@ -45,15 +56,13 @@ function createCashCounter() {
     });
 
     cashCoins.forEach((coins) => {
-      if (cashBox === []) {
-        return "empty";
-      }
       if (change >= coins) {
         cashBox.forEach((item) =>
           item[coins]
             ? (item[coins] -= Number(Math.floor(change / coins)))
             : item
         );
+
         let result = { [`${coins} cent`]: Math.floor(change / coins) };
         cashRegister.push(result);
         change = change % coins;
@@ -72,12 +81,3 @@ console.log(cashCounter(4.5, 20));
 console.log(cashCounter(15, 10));
 console.log(cashCounter(15, 15));
 console.log(cashBox);
-
-//console.log(cashRegister.find((c) => (c.note = 50)));
-/* const myArr= [{someKey: 3}]
-
-myArr[0].someKey += 1;
-
-console.log(myArr) // returns [{ someKey: 4 }]*/
-
-//console.log(cashBox["50"] - cashRegister[0]);
