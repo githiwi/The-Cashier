@@ -1,9 +1,9 @@
 let cashBox = [
-  { 50: 10 },
+  { 50: 0 },
   { 20: 10 },
   { 10: 10 },
-  { 5: 25 },
-  { 2: 25 },
+  { 5: 0 },
+  { 2: 0 },
   { 1: 25 },
   { 0.5: 25 },
   { 0.2: 25 },
@@ -22,6 +22,7 @@ let cashBox = [
 function checkCashBox(cashBox) {
   let cashBoxTotal = cashBox.reduce(function (accumulator, currentValue) {
     for (key in currentValue) {
+      // console.log(currentValue[key]);
       return currentValue[key] + accumulator;
     }
   }, 0);
@@ -45,6 +46,13 @@ function createCashCounter() {
     }
     cashNotes.forEach((note) => {
       if (change >= note) {
+        const value = cashBox.find((c) => Object.keys(c) == note);
+        if (
+          value[note] < 1 &&
+          value[note] - Number(Math.floor(change / note)) < 0
+        ) {
+          return;
+        }
         cashBox.forEach((item) =>
           item[note] ? (item[note] -= Number(Math.floor(change / note))) : item
         );
@@ -75,9 +83,10 @@ function createCashCounter() {
 
 const cashCounter = createCashCounter();
 console.log(cashCounter(5, 10));
-console.log(cashCounter(5, 100));
-console.log(cashCounter(3.75, 50));
-console.log(cashCounter(4.5, 20));
-console.log(cashCounter(15, 10));
-console.log(cashCounter(15, 15));
-console.log(cashBox);
+// console.log(cashCounter(5, 100));
+// console.log(cashCounter(3.75, 50));
+// console.log(cashCounter(4.5, 20));
+//console.log(cashCounter(15, 10));
+//console.log(cashCounter(15, 15));
+console.log(cashCounter(15, 100));
+//console.log(cashBox);
