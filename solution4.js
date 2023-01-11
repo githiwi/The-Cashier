@@ -44,6 +44,9 @@ function createCashCounter() {
     if (checkCashBox(cashBox) == 0) {
       return "empty cash box";
     }
+    if (checkCashBox(cashBox) < price) {
+      return "we dont have enogh in the cash box";
+    }
     cashNotes.forEach((note) => {
       if (change >= note) {
         const value = cashBox.find((c) => Object.keys(c) == note);
@@ -90,3 +93,4 @@ console.log(cashCounter(5, 10));
 //console.log(cashCounter(15, 15));
 console.log(cashCounter(15, 100));
 //console.log(cashBox);
+console.log(cashCounter(215, 250));
