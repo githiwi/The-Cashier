@@ -23,6 +23,7 @@ function cashCounter(price, cash) {
 
   return cashRegister;
 }
+console.log(typeof Number);
 console.log(cashCounter(5, 10)); //[ '{5 euro : 1}' ]
 console.log(cashCounter(5, 25));
 console.log(cashCounter(10, 20));

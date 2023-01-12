@@ -1,85 +1,112 @@
 let cashBox = [
   { 50: 0 },
-  { 20: 10 },
-  { 10: 10 },
-  { 5: 25 },
-  { 2: 25 },
-  { 1: 25 },
-  { 0.5: 25 },
-  { 0.2: 25 },
-  { 0.1: 25 },
-  { 0.05: 25 },
-  { 0.02: 25 },
-  { 0.01: 25 },
+  { 20: 0 },
+  { 10: 2 },
+  { 5: 4 },
+  { 2: 0 },
+  { 1: 0 },
+  { 0.5: 0 },
+  { 0.2: 0 },
+  { 0.1: 0 },
+  { 0.05: 0 },
+  { 0.02: 0 },
+  { 0.01: 0 },
 ];
 
 /**
  * this function returns the total amount of
  * notes and coins available in cashbox
- * @param {*} cashBox
+ * @param {the cashier cashBox} cashBox
  * @returns
  */
 function checkCashBox(cashBox) {
   let cashBoxTotal = cashBox.reduce(function (accumulator, currentValue) {
     for (key in currentValue) {
-      console.log(currentValue[key]);
-      return currentValue[key] + accumulator;
+      return currentValue[key] * key + accumulator;
     }
   }, 0);
+
   return cashBoxTotal;
 }
+
 function createCashCounter() {
-  return function (price, cash) {
+  return function (price, paidCash) {
     const cashNotes = [50, 20, 10, 5, 2, 1];
     const cashCoins = [0.5, 0.2, 0.1, 0.05, 0.02, 0.01];
 
     let cashRegister = [];
-    let change = Number(cash - price);
-    if (cash < price) {
-      return price - cash + " more euro should be paid";
+    let change = Number(paidCash - price);
+
+    if (paidCash == price) {
+      return "Payment done print the receipt?";
     }
-    if (cash == price) {
-      return "payment done print the receipt? ";
+    if (paidCash < price) {
+      return price - paidCash + " more euro should be paid";
     }
+    if (checkCashBox(cashBox) < change) {
+      return "We don't have enough in the cash box";
+    }
+
     if (checkCashBox(cashBox) == 0) {
-      return "empty cash box";
+      return "Empty cash box";
     }
+
     cashNotes.forEach((note) => {
       if (change >= note) {
+        //
+        const value = cashBox.find(
+          (cashBoxObj) => Object.keys(cashBoxObj) == note
+        );
+        //Number(Math.floor(change / note) extract this block with proper variable name
+        let quotientNote = Number(Math.floor(change / note));
+        if (value[note] < 1 && value[note] - quotientNote < 0) {
+          return;
+        }
+
         cashBox.forEach((item) =>
-          item[note] ? (item[note] -= Number(Math.floor(change / note))) : item
+          item[note] ? (item[note] -= quotientNote) : item
         );
 
-        let result = { [`${note} Euro`]: Math.floor(change / note) };
+        let result = { [`${note} Euro`]: quotientNote };
         cashRegister.push(result);
         change = change % note;
       }
     });
 
-    cashCoins.forEach((coins) => {
-      if (change >= coins) {
+    cashCoins.forEach((coin) => {
+      let quotientCoin = Number(Math.floor(change / coin));
+      if (change >= coin) {
+        const value = cashBox.find(
+          (cashBoxObj) => Object.keys(cashBoxObj) == coin
+        );
+        if (value[coin] < 1 && value[coin] - quotientCoin < 0) {
+          return; //when note 0  return
+        }
+        //update cashbox whenever their change
         cashBox.forEach((item) =>
-          item[coins]
-            ? (item[coins] -= Number(Math.floor(change / coins)))
-            : item
+          item[coin] ? (item[coin] -= quotientCoin) : item
         );
 
-        let result = { [`${coins} cent`]: Math.floor(change / coins) };
+        let result = { [`${coin} cent`]: quotientCoin };
         cashRegister.push(result);
-        change = change % coins;
+        change = change % coin;
       }
     });
-    // console.log(cashRegister);
+
     return cashRegister;
   };
 }
 
-const cashCounter = createCashCounter();
-// console.log(cashCounter(5, 10));
-// console.log(cashCounter(5, 100));
-// console.log(cashCounter(3.75, 50));
-// console.log(cashCounter(4.5, 20));
-console.log(cashCounter(15, 10));
-console.log(cashCounter(15, 15));
-console.log(cashCounter(15, 100));
-console.log(cashBox);
+const cashCounter = createCashCounter(); //function expression
+// console.log(cashCounter(22, 23));
+// console.log(cashCounter(4.5, 5));
+// console.log(cashCounter(350, 400));
+// // console.log(cashCounter(5, 100));
+// //console.log(cashCounter(3.75, 50));
+// // console.log(cashCounter(4.5, 20));
+// console.log(cashCounter(15, 10));
+// //console.log(cashCounter(15, 15));
+// console.log(cashCounter(15, 100));
+// //console.log(cashBox);
+// console.log(cashCounter(400, 400));
+console.log(cashCounter(90, 100));
