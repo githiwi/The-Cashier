@@ -1,5 +1,5 @@
 let cashBox = [
-  { 50: 10 },
+  { 50: 2 },
   { 20: 10 },
   { 10: 0 },
   { 5: 4 },
@@ -63,6 +63,7 @@ function createCashCounter() {
           return;
         }
 
+        //update the cashBox
         cashBox.forEach((item) =>
           item[note] ? (item[note] -= quotientNote) : item
         );
@@ -99,12 +100,12 @@ function createCashCounter() {
 }
 
 const cashCounter = createCashCounter(); //function expression
-console.log(cashCounter(5, 100)); //[ { '50 Euro': 1 }, { '20 Euro': 2 }, { '5 Euro': 1 } ]
+console.log(cashCounter(15, 15)); //Payment done print the receipt?
+console.log(cashCounter(15, 10)); //5 more euro should be paid
+console.log(cashCounter(100, 500)); //We don't have enough in the cash box
 console.log(cashCounter(22, 23)); //[ { '0.5 cent': 2 } ]
+console.log(cashCounter(5, 100)); //[ { '50 Euro': 1 }, { '20 Euro': 2 }, { '5 Euro': 1 } ]
+
 console.log(cashCounter(4.5, 5)); //[ { '0.5 cent': 1 } ]
 console.log(cashCounter(350, 400)); //[ { '50 Euro': 1 } ]
-
-console.log(cashCounter(15, 10)); //5 more euro should be paid
-console.log(cashCounter(15, 15)); //Payment done print the receipt?
 console.log(cashCounter(15, 100)); //[ { '50 Euro': 1 }, { '20 Euro': 1 }, { '5 Euro': 3 } ]
-console.log(cashCounter(400, 400)); //Payment done print the receipt?
