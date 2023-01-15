@@ -1,4 +1,4 @@
-# The Casher
+# The Cashier
 
 ## what does it do?
 
@@ -14,3 +14,7 @@
 - if price and the payment is equal, it will return `Payment done print the receipt?`
 
 ## Example
+
+![title](image/p1.png)
+
+![title](image/p2.png)
